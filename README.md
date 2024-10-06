@@ -1,30 +1,126 @@
-# Gilded Rose starting position in Java
+# Gilded Rose Refactoring Kata - Version 2.0 🎉
 
-## Run the TextTest Fixture from Command-Line
+## Introduction
 
-```
-./gradlew -q text
-```
+Hey everyone! 👋 Welcome to my **Gilded Rose** refactoring project. This is **version 2.0** of the project, where I have implemented some major improvements and refactoring based on feedback I received. The goal was to make the code cleaner, more modular, and much easier to maintain. I’ve also significantly expanded the test suite to ensure everything runs smoothly!
 
-### Specify Number of Days
+## What’s New? 🛠️
 
-For e.g. 10 days:
+In this version, I’ve focused on refactoring the code to adhere to **SOLID principles**. The original project had logic for all item types mixed into one function, which made it difficult to extend and maintain. I knew that separating the concerns of each item type and implementing cleaner class structures would make the project more scalable and adaptable to future changes.
 
-```
-./gradlew -q text --args 10
-```
+### Here's a breakdown of the changes I've made:
 
-You should make sure the gradle commands shown above work when you execute them in a terminal before trying to use TextTest (see below).
+1. **Better Structure and Separation of Concerns**:  
+   I broke down the logic into different classes where each class now handles a specific type of item behavior. For example:
+   - `AgedBrieItemQualityModifier` for "Aged Brie"
+   - `BackstageItemQualityModifier` for "Backstage passes to a TAFKAL80ETC concert"
+   - `DefaultItemQualityModifier` for standard items
+   - `SulfurasItemQualityModifier` for the legendary "Sulfuras, Hand of Ragnaros"
+   
+   This made the code more modular and easier to read and understand.
+
+2. **Following SOLID Principles**:  
+   By implementing SOLID principles, I ensured that:
+   - Each class has a **single responsibility** (SRP),
+   - The system is **open for extension** but **closed for modification** (OCP),
+   - Classes can be substituted without altering the program's correctness (**Liskov Substitution**),
+   - Classes are small and focused, using interfaces that are only relevant to the class (**Interface Segregation**),
+   - Dependencies are inverted, meaning the system relies on abstractions rather than concrete classes (**Dependency Inversion**).
+
+3. **Factory Design Pattern**:  
+   I introduced an `ItemQualityModifierFactory` that is responsible for determining which `ItemQualityModifier` to use for each item. This centralized the decision-making and made adding new item types much easier in the future.
+
+4. **Helper Class**:  
+   I created a helper class called `ItemQualityHelper` to handle common conditions such as checking whether the quality is within valid bounds or whether the sell-in date has passed. This keeps the main logic focused and reduces code duplication.
+
+## Key Changes from the Previous Version 📝
+
+In **version 1.0**, the entire logic for updating item quality and sell-in was cramped into one function. It was difficult to understand and even harder to maintain. By splitting the code into separate classes, I’ve made it easier to follow and much more efficient.
+
+For example, in the previous version:
+- Handling each item type required adding more and more `if-else` conditions, which would quickly become unmanageable.
+- Testing was challenging because everything was interconnected.
+
+In **version 2.0**, the refactoring has resolved these issues by:
+- Making the code more extensible by removing the monolithic logic and replacing it with class-specific behavior.
+- Enabling better testability with isolated tests for each item type.
+
+## Classes Breakdown 💡
+
+### `AgedBrieItemQualityModifier`
+
+Handles the logic for "Aged Brie", where the quality improves as it ages. The sell-in value decreases by 1 each day, and the quality increases until it reaches a cap of 50.
+
+### `BackstageItemQualityModifier`
+
+Handles "Backstage passes to a TAFKAL80ETC concert", where the quality increases as the sell-in date approaches:
+- 10 days or less: Quality increases by 2.
+- 5 days or less: Quality increases by 3.
+- After the concert: Quality drops to 0.
+
+### `DefaultItemQualityModifier`
+
+Handles generic items where the quality decreases as the sell-in date approaches. The quality decreases by 1 each day, and after the sell-in date, it decreases by 2. The quality never goes below 0.
+
+### `SulfurasItemQualityModifier`
+
+Handles "Sulfuras, Hand of Ragnaros", a legendary item that never decreases in quality and does not need to be sold. It stays at a constant quality of 80.
+
+### `ItemQualityModifierFactory`
+
+This class decides which modifier should be used based on the item’s name. This makes the logic extensible and easy to update whenever new item types are introduced.
+
+### `ItemQualityHelper`
+
+This helper class provides utility functions to handle quality and sell-in logic across all item types, such as:
+- Checking if the sell-in date has passed,
+- Ensuring that quality remains within valid bounds.
+
+## Testing Improvements 🧪
+
+One of the biggest changes in this version is the enhanced test suite. I wanted to make sure every aspect of the item behavior was well covered, so I added a variety of test cases.
+
+### What the Tests Cover:
+
+- **Aged Brie**:
+  - Ensures that the quality increases as the item ages.
+  - Tests the behavior when the sell-in date has passed.
+  - Ensures that quality never exceeds 50.
+
+- **Backstage Passes**:
+  - Validates that quality increases correctly as the concert approaches.
+  - Ensures quality drops to 0 after the concert.
+
+- **Sulfuras**:
+  - Ensures the quality remains constant at 80.
+  - Ensures the sell-in value does not change.
+
+- **Default Items**:
+  - Ensures quality decreases by 1 before the sell-in date.
+  - Ensures quality decreases by 2 after the sell-in date.
+  - Ensures quality never goes below 0.
+
+- **Edge Cases**:
+  - Items with negative sell-in values.
+  - Items with maximum quality.
+
+### Parameterized Testing:
+
+To ensure robustness, I used **parameterized tests** for scenarios that apply to multiple inputs, such as testing items with various qualities and sell-in values. This reduces redundancy and makes the test suite more maintainable.
+
+## How to Run the Tests 🏃‍♂️
+
+To run the tests, simply execute the following commands in your terminal:
+
+```bash
+./gradlew test  ```
+
+You’ll see detailed results for each test case, ensuring that every type of item in the system behaves as expected.
+
+### Conclusion:
+
+In version 2.0, I’ve taken significant steps to refactor the code and make the system more modular, scalable, and testable. This update resolves a lot of the issues from the previous version and sets up the project for easier future maintenance.
+
+I’m really proud of this update—it was challenging but incredibly rewarding to see how much cleaner and more efficient the code is now! 😊 Feel free to explore the code, run the tests, and reach out if you have any feedback!
 
 
-## Run the TextTest approval test that comes with this project
-
-There are instructions in the [TextTest Readme](../texttests/README.md) for setting up TextTest. What's unusual for the Java version is there are two executables listed in [config.gr](../texttests/config.gr) for Java. The first uses Gradle wrapped in a python script. Uncomment these lines to use it:
-
-    executable:${TEXTTEST_HOME}/Java/texttest_rig.py
-    interpreter:python
-
-The other relies on your CLASSPATH being set correctly in [environment.gr](../texttests/environment.gr). Uncomment these lines to use it instead:
-
-    executable:com.gildedrose.TexttestFixture
-    interpreter:java
