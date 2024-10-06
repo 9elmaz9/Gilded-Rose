@@ -19,7 +19,12 @@ In this version, I’ve focused on refactoring the code to adhere to **SOLID pri
    
    This made the code more modular and easier to read and understand.
 
-2. **Following SOLID Principles**:  
+2. **Abstract Class for Common Behavior**:  
+   I introduced an **abstract class** for handling common behavior across item types, allowing the logic that applies to all items (e.g., decreasing the sell-in value or checking quality constraints) to be centralized. This drastically reduces the duplication of code and ensures that the logic for different item types only contains what is specific to that item. This change also makes it much easier to introduce new item types since you can simply extend the abstract class and override only what’s necessary.
+   
+   This approach ensures that each item type follows a consistent pattern, but still allows for flexibility and customization where needed.
+
+3. **Following SOLID Principles**:  
    By implementing SOLID principles, I ensured that:
    - Each class has a **single responsibility** (SRP),
    - The system is **open for extension** but **closed for modification** (OCP),
@@ -27,15 +32,15 @@ In this version, I’ve focused on refactoring the code to adhere to **SOLID pri
    - Classes are small and focused, using interfaces that are only relevant to the class (**Interface Segregation**),
    - Dependencies are inverted, meaning the system relies on abstractions rather than concrete classes (**Dependency Inversion**).
 
-3. **Factory Design Pattern**:  
+4. **Factory Design Pattern**:  
    I introduced an `ItemQualityModifierFactory` that is responsible for determining which `ItemQualityModifier` to use for each item. This centralized the decision-making and made adding new item types much easier in the future.
 
-4. **Helper Class**:  
+5. **Helper Class**:  
    I created a helper class called `ItemQualityHelper` to handle common conditions such as checking whether the quality is within valid bounds or whether the sell-in date has passed. This keeps the main logic focused and reduces code duplication.
 
 ## Key Changes from the Previous Version 📝
 
-In **version 1.0**, the entire logic for updating item quality and sell-in was cramped into one function. It was difficult to understand and even harder to maintain. By splitting the code into separate classes, I’ve made it easier to follow and much more efficient.
+In **version 1.0**, the entire logic for updating item quality and sell-in was cramped into one function. It was difficult to understand and even harder to maintain. By splitting the code into separate classes and abstracting common behavior, I’ve made it easier to follow and much more efficient.
 
 For example, in the previous version:
 - Handling each item type required adding more and more `if-else` conditions, which would quickly become unmanageable.
@@ -43,6 +48,7 @@ For example, in the previous version:
 
 In **version 2.0**, the refactoring has resolved these issues by:
 - Making the code more extensible by removing the monolithic logic and replacing it with class-specific behavior.
+- Centralizing common logic into an abstract class, reducing code duplication and simplifying future extensions.
 - Enabling better testability with isolated tests for each item type.
 
 ## Classes Breakdown 💡
@@ -108,13 +114,22 @@ One of the biggest changes in this version is the enhanced test suite. I wanted 
 
 To ensure robustness, I used **parameterized tests** for scenarios that apply to multiple inputs, such as testing items with various qualities and sell-in values. This reduces redundancy and makes the test suite more maintainable.
 
+## Abstract Class and its Benefits 🌟
+
+The introduction of an abstract class to centralize common behavior was a crucial improvement in this refactor. By moving logic that applies to all items (such as reducing the `sellIn` value or capping the `quality` at 50) into an abstract class, I was able to:
+- **Reduce duplication**: The common logic is now defined once in the abstract class instead of being repeated in every class.
+- **Improve scalability**: When adding new item types, I no longer need to worry about implementing basic behavior from scratch. Instead, I can just inherit from the abstract class and override the specific behavior unique to that item type.
+- **Maintain consistency**: Since the basic item logic is centralized, every item type now follows the same structure, reducing the chances of accidental inconsistencies or bugs.
+
+This approach also helps to ensure that all item types are treated fairly in terms of logic, while still allowing for flexibility when necessary.
+
 ## How to Run the Tests 🏃‍♂️
 
 To run the tests, simply execute the following commands in your terminal:
 
 ```bash
 ./gradlew test
-```
+
 
 You’ll see detailed results for each test case, ensuring that every type of item in the system behaves as expected.
 
