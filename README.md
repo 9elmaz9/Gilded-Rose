@@ -129,7 +129,7 @@ To run the tests, simply execute the following commands in your terminal:
 
 ```bash
 ./gradlew test
-'''
+
 
 You’ll see detailed results for each test case, ensuring that every type of item in the system behaves as expected.
 
