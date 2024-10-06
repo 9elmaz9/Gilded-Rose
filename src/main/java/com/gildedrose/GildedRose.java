@@ -2,18 +2,25 @@ package com.gildedrose;
 
 class GildedRose {
 
-    private Inventory inventory;
+    Item[] items;
+    private ItemQualityModifierFactory itemQualityModifierFactory;
 
-    public Inventory getInventory() {
-        return inventory;
-    }
 
     public GildedRose(Item[] items) {
-        this.inventory = new Inventory(items);
+        this.items = items;
+        this.itemQualityModifierFactory = new ItemQualityModifierFactory();
+    }
+
+    public GildedRose(Item[] items, ItemQualityModifierFactory itemQualityUpdaterFactory) {
+        this.items = items;
+        this.itemQualityModifierFactory = itemQualityUpdaterFactory;
     }
 
     public void updateQuality() {
-        inventory.updateItems();
+
+        for (Item item : items) {
+            ItemQualityModifierFactory.get(item).update(item);
+        }
     }
 
 }
