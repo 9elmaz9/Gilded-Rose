@@ -1,4 +1,4 @@
-# Gilded Rose Refactoring Kata - Version 2.0 🎉
+# Gilded Rose Refactoring Kata - Version 2.0 
 
 ## Introduction
 
@@ -131,9 +131,9 @@ To run the tests, simply execute the following commands in your terminal:
 ./gradlew test
 
 
- You’ll see detailed results for each test case, ensuring that every type of item in the system behaves as expected.
+You’ll see detailed results for each test case, ensuring that every type of item in the system behaves as expected.
 
-### Conclusion:
+## Conclusion:
 
 In version 2.0, I’ve taken significant steps to refactor the code and make the system more modular, scalable, and testable. This update resolves a lot of the issues from the previous version and sets up the project for easier future maintenance.
 
