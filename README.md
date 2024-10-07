@@ -127,7 +127,7 @@ This approach also helps to ensure that all item types are treated fairly in ter
 
 To run the tests, simply execute the following commands in your terminal:
 
-```bash
+  ```bash
 ./gradlew test
 
 
