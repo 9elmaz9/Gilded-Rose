@@ -131,4 +131,14 @@ To run the tests, simply execute the following commands in your terminal:
 ./gradlew test
 
 
+You’ll see detailed results for each test case, ensuring that every type of item in the system behaves as expected.
+
+## Conclusion:
+
+In version 2.0, I’ve taken significant steps to refactor the code and make the system more modular, scalable, and testable. This update resolves a lot of the issues from the previous version and sets up the project for easier future maintenance.
+
+I’m really proud of this update—it was challenging but incredibly rewarding to see how much cleaner and more efficient the code is now! 😊 Feel free to explore the code, run the tests, and reach out if you have any feedback!
+
+
+
 
