@@ -19,7 +19,7 @@ In this version, I’ve focused on refactoring the code to adhere to **SOLID pri
    
    This made the code more modular and easier to read and understand.
 
-2. **Abstract Class for Common Behavior**:  
+2. ** Class for Common Behavior**:  
    I introduced an **abstract class** for handling common behavior across item types, allowing the logic that applies to all items (e.g., decreasing the sell-in value or checking quality constraints) to be centralized. This drastically reduces the duplication of code and ensures that the logic for different item types only contains what is specific to that item. This change also makes it much easier to introduce new item types since you can simply extend the abstract class and override only what’s necessary.
    
    This approach ensures that each item type follows a consistent pattern, but still allows for flexibility and customization where needed.
